@@ -10,6 +10,159 @@ st.set_page_config(
     layout="wide",
 )
 
+st.markdown(
+    """
+    <style>
+    :root {
+        --orange: #e87932;
+        --orange-dark: #bd5b20;
+        --orange-soft: #fff0e2;
+        --ink: #33261e;
+        --muted: #76665a;
+        --line: #f0dfcf;
+        --paper: #fff9f3;
+    }
+
+    .stApp {
+        background:
+            radial-gradient(ellipse at 92% 0%, rgba(251, 191, 131, .2), transparent 34rem),
+            var(--paper);
+        color: var(--ink);
+    }
+
+    .stApp header[data-testid="stHeader"] {
+        background: rgba(255, 249, 243, .82);
+    }
+
+    [data-testid="stAppViewContainer"] .main .block-container {
+        max-width: 1440px;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #fff2e5 0%, #fff8f1 100%);
+        border-right: 1px solid var(--line);
+    }
+
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] label {
+        color: var(--ink);
+    }
+
+    h1, h2, h3 {
+        color: var(--ink);
+        letter-spacing: -.025em;
+    }
+
+    [data-testid="stMarkdownContainer"] h4 {
+        color: var(--orange-dark) !important;
+        font-size: .82rem;
+        font-weight: 750;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+    }
+
+    [data-testid="stMetric"] {
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, .86);
+        box-shadow: 0 8px 24px rgba(104, 67, 37, .055);
+    }
+
+    [data-testid="stMetricLabel"] {
+        color: var(--muted);
+        font-weight: 600;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: var(--orange-dark);
+        font-weight: 750;
+    }
+
+    [data-testid="stTabs"] [role="tablist"] {
+        gap: .4rem;
+        border-bottom: 1px solid var(--line);
+    }
+
+    [data-testid="stTabs"] button[role="tab"] {
+        border-radius: 12px 12px 0 0;
+        color: var(--muted);
+        font-weight: 650;
+    }
+
+    [data-testid="stTabs"] button[role="tab"][aria-selected="true"] {
+        color: var(--orange-dark);
+        border-bottom-color: var(--orange);
+    }
+
+    .stButton > button,
+    [data-testid="stFormSubmitButton"] > button {
+        min-height: 2.7rem;
+        border: 1px solid #d96827;
+        border-radius: 12px;
+        background: linear-gradient(120deg, #ed873d, #e46b2c);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 6px 16px rgba(211, 101, 41, .18);
+        transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+
+    .stButton > button:hover,
+    [data-testid="stFormSubmitButton"] > button:hover {
+        border-color: var(--orange-dark);
+        color: white;
+        filter: brightness(1.03);
+        transform: translateY(-1px);
+        box-shadow: 0 9px 22px rgba(211, 101, 41, .23);
+    }
+
+    .stButton > button:focus-visible,
+    [data-testid="stFormSubmitButton"] > button:focus-visible {
+        outline: 3px solid rgba(232, 121, 50, .35);
+        outline-offset: 2px;
+    }
+
+    input, textarea, [data-baseweb="select"] > div {
+        border-radius: 10px !important;
+    }
+
+    [data-testid="stSlider"] [role="slider"] {
+        background-color: var(--orange);
+        border-color: var(--orange);
+    }
+
+    [data-testid="stDataFrame"],
+    [data-testid="stDataEditor"] {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    [data-testid="stAlert"] {
+        border-radius: 14px;
+    }
+
+    [data-testid="stCaptionContainer"] {
+        color: var(--muted);
+    }
+
+    hr {
+        border-color: var(--line);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            scroll-behavior: auto !important;
+            transition-duration: .01ms !important;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # ----------------------------------------------------------------------------
 # Core logic (same rule as the ideathon code)
 #   if occupancy > threshold  -> efficient, waste = 0
@@ -22,7 +175,7 @@ DEFAULT_ROOMS = pd.DataFrame(
     }
 )
 
-COLORS = {"Wasting": "#e74c3c", "Efficient": "#2ecc71"}
+COLORS = {"Wasting": "#e87932", "Efficient": "#31916f"}
 
 
 def analyse(rooms: pd.DataFrame, occ: dict, threshold: int, tariff: float) -> pd.DataFrame:
@@ -106,7 +259,7 @@ def show_results(df: pd.DataFrame, threshold: int, tariff: float, hours: int):
     else:
         st.subheader("Suggested actions")
         for _, r in wasting.iterrows():
-            st.error(
+            st.warning(
                 f"**{r['room']}** is only {r['occupancy']}% full but can draw {r['power']:.0f} kW. "
                 f"Switch off AC/lights to save about **{r['waste_kw']} kW (₹ {r['cost_hr']}/hr)**."
             )
