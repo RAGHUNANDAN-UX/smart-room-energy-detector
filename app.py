@@ -14,9 +14,9 @@ st.markdown(
     """
     <style>
     :root {
-        --orange: #e87932;
-        --orange-dark: #bd5b20;
-        --orange-soft: #fff0e2;
+        --orange: #d66b2e;
+        --orange-dark: #ad4d1e;
+        --orange-soft: #f9e8d9;
         --ink: #33261e;
         --muted: #76665a;
         --line: #f0dfcf;
@@ -64,11 +64,32 @@ st.markdown(
     }
 
     [data-testid="stMetric"] {
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
         padding: 1.15rem 1.25rem;
         border: 1px solid var(--line);
         border-radius: 18px;
-        background: rgba(255, 255, 255, .86);
-        box-shadow: 0 8px 24px rgba(104, 67, 37, .055);
+        background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(255, 247, 238, .94));
+        box-shadow: 0 10px 24px rgba(104, 67, 37, .08), inset 0 1px 0 rgba(255, 255, 255, .95);
+        animation: card-enter .55s cubic-bezier(.2, .75, .25, 1) both;
+        transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    [data-testid="stMetric"]::before {
+        position: absolute;
+        top: 0;
+        left: 1.25rem;
+        right: 1.25rem;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(214, 107, 46, .42), transparent);
+        content: "";
+    }
+
+    [data-testid="stMetric"]:hover {
+        transform: perspective(900px) rotateX(1deg) translateY(-4px);
+        border-color: rgba(214, 107, 46, .35);
+        box-shadow: 0 18px 34px rgba(104, 67, 37, .13), inset 0 1px 0 white;
     }
 
     [data-testid="stMetricLabel"] {
@@ -100,12 +121,12 @@ st.markdown(
     .stButton > button,
     [data-testid="stFormSubmitButton"] > button {
         min-height: 2.7rem;
-        border: 1px solid #d96827;
+        border: 1px solid #bd5925;
         border-radius: 12px;
-        background: linear-gradient(120deg, #ed873d, #e46b2c);
+        background: linear-gradient(145deg, #df7838, #c45b26);
         color: white;
         font-weight: 700;
-        box-shadow: 0 6px 16px rgba(211, 101, 41, .18);
+        box-shadow: 0 4px 0 #9e451b, 0 9px 18px rgba(173, 77, 30, .2), inset 0 1px 0 rgba(255, 255, 255, .28);
         transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
     }
 
@@ -114,8 +135,14 @@ st.markdown(
         border-color: var(--orange-dark);
         color: white;
         filter: brightness(1.03);
-        transform: translateY(-1px);
-        box-shadow: 0 9px 22px rgba(211, 101, 41, .23);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 0 #9e451b, 0 13px 24px rgba(173, 77, 30, .25), inset 0 1px 0 rgba(255, 255, 255, .3);
+    }
+
+    .stButton > button:active,
+    [data-testid="stFormSubmitButton"] > button:active {
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 #9e451b, 0 4px 10px rgba(173, 77, 30, .16);
     }
 
     .stButton > button:focus-visible,
@@ -152,9 +179,22 @@ st.markdown(
         border-color: var(--line);
     }
 
+    @keyframes card-enter {
+        from {
+            opacity: 0;
+            transform: translateY(12px) scale(.985);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
             scroll-behavior: auto !important;
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
             transition-duration: .01ms !important;
         }
     }
@@ -175,7 +215,7 @@ DEFAULT_ROOMS = pd.DataFrame(
     }
 )
 
-COLORS = {"Wasting": "#e87932", "Efficient": "#31916f"}
+COLORS = {"Wasting": "#d66b2e", "Efficient": "#31916f"}
 
 
 def analyse(rooms: pd.DataFrame, occ: dict, threshold: int, tariff: float) -> pd.DataFrame:
