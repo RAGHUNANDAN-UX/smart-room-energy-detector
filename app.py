@@ -63,6 +63,33 @@ st.markdown(
         text-transform: uppercase;
     }
 
+    .creator-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        margin: .55rem 0 .25rem;
+        padding: .5rem .85rem;
+        border: 1px solid rgba(173, 77, 30, .2);
+        border-radius: 999px;
+        background: linear-gradient(135deg, #fff4e9, #ffffff);
+        box-shadow: 0 5px 14px rgba(104, 67, 37, .08), inset 0 1px 0 white;
+        color: var(--muted);
+        font-size: .83rem;
+        animation: card-enter .55s cubic-bezier(.2, .75, .25, 1) both;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .creator-badge:hover {
+        transform: translateY(-2px) scale(1.015);
+        box-shadow: 0 9px 20px rgba(104, 67, 37, .13), inset 0 1px 0 white;
+    }
+
+    .creator-badge strong {
+        color: var(--orange-dark);
+        font-size: .96rem;
+        letter-spacing: .015em;
+    }
+
     [data-testid="stMetric"] {
         position: relative;
         overflow: hidden;
@@ -327,6 +354,10 @@ with st.sidebar:
 # ----------------------------------------------------------------------------
 st.markdown(
     "<h4 style='margin:0;color:#1f3864'>BGS College of Engineering and Technology · Dept. of CSE</h4>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "<div class='creator-badge'><span>Project by</span><strong>Raghunandan</strong><span>· CSE, BGSCET</span></div>",
     unsafe_allow_html=True,
 )
 st.title("Smart Room Energy Waste Detector")
